@@ -11,7 +11,7 @@
 	<key>Input</key>
 	<dict>
 		<key>MUNKI_REPO_SUBDIR</key>
-		<string>apps/%NAME%</string>
+		<string>apps/edu</string>
 		<key>NAME</key>
 		<string>NWEA Lockdown Browser</string>
 		<key>pkginfo</key>
@@ -20,8 +20,10 @@
 			<array>
 				<string>testing</string>
 			</array>
+			<key>category</key>
+			<string>Education Software</string>
 			<key>description</key>
-			<string> </string>
+			<string></string>
 			<key>developer</key>
 			<string></string>
 			<key>display_name</key>
