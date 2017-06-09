@@ -11,7 +11,7 @@
 	<key>Input</key>
 	<dict>
 		<key>DOWNLOAD_URL</key>
-		<string>http://www.dm.origin.com/mac/download</string>
+		<string>https://www.dm.origin.com/mac/download</string>
 		<key>NAME</key>
 		<string>Origin</string>
 	</dict>
