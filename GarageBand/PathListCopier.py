@@ -123,7 +123,8 @@ class PathListCopier(Processor):
             # copy all files from path list
             for source_item in self.env["sourcelist"]:
                 #check if source exists
-                if os.path.exists(source_item): continue
+                if not os.path.exists(source_item): 
+                  continue
 								
                 #copy all the things
                 dest_item = os.path.join(pathname, os.path.relpath(source_item, "/"))
