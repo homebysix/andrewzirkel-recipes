@@ -122,12 +122,15 @@ class PathListCopier(Processor):
             
             # copy all files from path list
             for source_item in self.env["sourcelist"]:
+							  #check if source exists
+							  if os.path.exists(source_item): continue
+								
                 #copy all the things
                 dest_item = os.path.join(pathname, os.path.relpath(source_item, "/"))
                 self.output("Copying: %s" % (source_item))
                 
                 makedir_p(os.path.dirname(dest_item))
-                
+								
                 try:
                     if os.path.isdir(source_item):
                         shutil.copytree(source_item, dest_item, symlinks=True)
