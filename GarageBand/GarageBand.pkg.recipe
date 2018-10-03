@@ -55,6 +55,15 @@
 		<dict>
 			<key>Arguments</key>
 			<dict>
+				<key>input_plist_path</key>
+				<string>%pathname%/Applications/GarageBand.app/Contents/Info.plist</string>
+			</dict>
+			<key>Processor</key>
+			<string>MinimumOSExtractor</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
 				<key>app_path</key>
 				<string>%pathname%/Applications/GarageBand.app</string>
 				<key>mas_action</key>
