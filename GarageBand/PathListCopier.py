@@ -124,6 +124,7 @@ class PathListCopier(Processor):
             for source_item in self.env["sourcelist"]:
                 #check if source exists
                 if not os.path.exists(source_item): 
+                  self.output("%s not found" % (source_item))
                   continue
 								
                 #copy all the things
