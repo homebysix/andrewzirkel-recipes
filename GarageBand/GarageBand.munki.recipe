@@ -28,8 +28,6 @@
 			<string>%NAME%</string>
 			<key>unattended_install</key>
 			<true/>
-			<key>minimum_os_version</key>
-			<string>%OS_MINIMUM%</string>
 		</dict>
 	</dict>
 	<key>MinimumVersion</key>
@@ -38,6 +36,22 @@
 	<string>org.umasd.pkg.garageband</string>
 	<key>Process</key>
 	<array>
+		<dict>
+			<key>Arguments</key>
+			<dict>
+				<key>additional_pkginfo</key>
+				<dict>
+					<key>minimum_os_version</key>
+					<string>%os_minimum%</string>
+				</dict>
+				<key>pkg_path</key>
+				<string>%pkg_path%</string>
+				<key>repo_subdirectory</key>
+				<string>%MUNKI_REPO_SUBDIR%</string>
+			</dict>
+			<key>Processor</key>
+			<string>MunkiPkginfoMerger</string>
+		</dict>
 		<dict>
 			<key>Arguments</key>
 			<dict>
