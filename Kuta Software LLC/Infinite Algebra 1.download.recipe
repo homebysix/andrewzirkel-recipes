@@ -7,7 +7,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Infinite Algebra 1.</string>
 	<key>Identifier</key>
-	<string>org.umasd.download.InfiniteAlgebra1</string>
+	<string>com.andrewzirkel.download.InfiniteAlgebra1</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
