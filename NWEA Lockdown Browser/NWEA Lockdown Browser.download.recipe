@@ -7,7 +7,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of NWEA Lockdown Browser.</string>
 	<key>Identifier</key>
-	<string>org.umasd.download.NWEALockdownBrowser</string>
+	<string>com.andrewzirkel.download.NWEALockdownBrowser</string>
 	<key>Input</key>
 	<dict>
 		<key>DOWNLOAD_URL</key>

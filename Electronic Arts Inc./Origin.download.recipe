@@ -7,7 +7,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Origin.</string>
 	<key>Identifier</key>
-	<string>org.umasd.download.Origin</string>
+	<string>com.andrewzirkel.download.Origin</string>
 	<key>Input</key>
 	<dict>
 		<key>DOWNLOAD_URL</key>

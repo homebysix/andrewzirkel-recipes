@@ -7,7 +7,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Infinite Calculus.</string>
 	<key>Identifier</key>
-	<string>org.umasd.download.InfiniteCalculus</string>
+	<string>com.andrewzirkel.download.InfiniteCalculus</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>

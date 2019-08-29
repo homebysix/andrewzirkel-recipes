@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Packages GarageBand and imports it into Munki.</string>
 	<key>Identifier</key>
-	<string>org.umasd.munki.GarageBand</string>
+	<string>com.andrewzirkel.munki.GarageBand</string>
 	<key>Input</key>
 	<dict>
 		<key>MUNKI_REPO_SUBDIR</key>
@@ -33,7 +33,7 @@
 	<key>MinimumVersion</key>
 	<string>0.6.1</string>
 	<key>ParentRecipe</key>
-	<string>org.umasd.pkg.garageband</string>
+	<string>com.andrewzirkel.pkg.garageband</string>
 	<key>Process</key>
 	<array>
 		<dict>

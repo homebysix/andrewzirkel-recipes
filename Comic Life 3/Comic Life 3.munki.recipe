@@ -5,7 +5,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Comic Life 3 and makes a pkg of it, uploaded to Munki.</string>
 	<key>Identifier</key>
-	<string>org.umasd.munki.ComicLife3</string>
+	<string>com.andrewzirkel.munki.ComicLife3</string>
 	<key>Input</key>
 	<dict>
 		<key>MUNKI_REPO_SUBDIR</key>

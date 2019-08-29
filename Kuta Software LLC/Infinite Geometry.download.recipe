@@ -7,7 +7,7 @@
 	<key>Description</key>
 	<string>Downloads the latest version of Infinite Geometry.</string>
 	<key>Identifier</key>
-	<string>org.umasd.download.InfiniteGeometry</string>
+	<string>com.andrewzirkel.download.InfiniteGeometry</string>
 	<key>Input</key>
 	<dict>
 		<key>NAME</key>
