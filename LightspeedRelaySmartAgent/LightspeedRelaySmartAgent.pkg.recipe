@@ -1,0 +1,155 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads LightspeedRelaySmartAgent dmg and creates package.</string>
+    <key>Identifier</key>
+    <string>com.andrewzirkel.pkg.LightspeedRelaySmartAgent</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>LightspeedRelaySmartAgent</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.andrewzirkel.download.LightspeedRelaySmartAgent</string>
+    <key>Process</key>
+    <array>
+      <dict>
+          <key>Comment</key>
+          <string>Unpack LightspeedRelaySmartAgent so we can get the version from the pkg</string>
+          <key>Processor</key>
+          <string>FlatPkgUnpacker</string>
+          <key>Arguments</key>
+          <dict>
+              <key>flat_pkg_path</key>
+              <string>%pathname%/SmartAgent.pkg</string>
+              <key>destination_path</key>
+              <string>%RECIPE_CACHE_DIR%/extract_root</string>
+          </dict>
+      </dict>
+      <dict>
+          <key>Comment</key>
+          <string>Unpack Setup Subpackage so we can get the version from the pkg</string>
+          <key>Processor</key>
+          <string>PkgPayloadUnpacker</string>
+          <key>Arguments</key>
+          <dict>
+              <key>pkg_payload_path</key>
+              <string>%RECIPE_CACHE_DIR%/extract_root/Setup.pkg/Payload</string>
+              <key>destination_path</key>
+              <string>%RECIPE_CACHE_DIR%/extract_SetupPayload</string>
+          </dict>
+      </dict>
+        <dict>
+            <key>Comment</key>
+            <string>Get LightspeedRelaySmartAgent version from the pkg</string>
+            <key>Processor</key>
+            <string>LightspeedRelaySmartAgentVersioner</string>
+            <key>Arguments</key>
+            <dict>
+                <key>mobilefilter_path</key>
+                <string>%RECIPE_CACHE_DIR%/extract_SetupPayload/usr/local/bin/mobilefilter</string>
+            </dict>
+        </dict>
+        <dict>
+    			<key>Processor</key>
+    			<string>PkgRootCreator</string>
+    			<key>Arguments</key>
+    			<dict>
+    				<key>pkgroot</key>
+    				<string>%RECIPE_CACHE_DIR%/pkgroot</string>
+    				<key>pkgdirs</key>
+    				<dict/>
+    			</dict>
+    		</dict>
+        <dict>
+          <key>Comment</key>
+          <string>Create pkgscripts directory</string>
+          <key>Arguments</key>
+          <dict>
+            <key>pkgdirs</key>
+            <dict/>
+            <key>pkgroot</key>
+            <string>%RECIPE_CACHE_DIR%/pkgscripts</string>
+          </dict>
+          <key>Processor</key>
+          <string>PkgRootCreator</string>
+        </dict>
+        <dict>
+            <key>Comment</key>
+            <string>Copy the dmg to the scripts folder.</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_path</key>
+                <string>%pathname%</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/pkgscripts/SmartAgent.dmg</string>
+                <key>overwrite</key>
+        				<true/>
+            </dict>
+            <key>Processor</key>
+            <string>Copier</string>
+        </dict>
+        <dict>
+    			<key>Arguments</key>
+    			<dict>
+    				<key>file_content</key>
+    				<string>#!/bin/bash
+#we have to do this because the installer references files in a hidden folder in the disk image.
+installer=/Volumes/SmartAgent/SmartAgent.pkg
+dmg=SmartAgent.dmg
+#attach disk image
+hdiutil attach -nobrowse $dmg
+if [ $? -ne 0 ]; then
+  logger -t preflight ERROR: $dmg not mounted
+  exit 1
+fi
+#check for installer
+if [ ! -e $installer ]; then
+  logger -t preflight ERROR: $installer not found
+  exit 1
+fi
+logger -t preflight installing $installer on volume $3
+sudo installer -target $3 -pkg $installer
+hdiutil detach /Volumes/SmartAgent -force
+exit 0</string>
+    				<key>file_mode</key>
+    				<string>0755</string>
+    				<key>file_path</key>
+    				<string>%RECIPE_CACHE_DIR%/pkgscripts/preinstall</string>
+    			</dict>
+    			<key>Processor</key>
+    			<string>FileCreator</string>
+    		</dict>
+        <dict>
+            <key>Comment</key>
+            <string>Create no payload package.</string>
+            <key>Processor</key>
+            <string>PkgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgname</key>
+                <string>%NAME%-%version%</string>
+                <key>pkg_request</key>
+                <dict>
+                  <key>pkgroot</key>
+        					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
+                  <key>pkgdir</key>
+                  <string>%RECIPE_CACHE_DIR%</string>
+                  <key>id</key>
+                  <string>com.Lightspeed.SmartAgent.pkg</string>
+                  <key>options</key>
+                  <string>purge_ds_store</string>
+                  <key>version</key>
+                  <string>%version%</string>
+                  <key>scripts</key>
+                  <string>%RECIPE_CACHE_DIR%/pkgscripts</string>
+                </dict>
+              </dict>
+            </dict>
+    </array>
+</dict>
+</plist>

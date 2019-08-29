@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads LightspeedRelaySmartAgent, imports into Munki.</string>
+    <key>Identifier</key>
+    <string>com.andrewzirkel.munki.LightspeedRelaySmartAgent</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>LightspeedRelaySmartAgent</string>
+        <key>MUNKI_REPO_SUBDIR</key>
+        <string></string>
+        <key>MAKEPKGINFO_PKGNAME</key>
+        <string>Install Lightspeed Relay SmartAgent</string>
+        <key>pkginfo</key>
+        <dict>
+            <key>catalogs</key>
+            <array>
+                <string>testing</string>
+            </array>
+            <key>description</key>
+            <string>Lightspeed Relay SmartAgent</string>
+            <key>display_name</key>
+            <string>Lightspeed Relay SmartAgent</string>
+            <key>name</key>
+            <string>%NAME%</string>
+            <key>unattended_install</key>
+            <true/>
+        </dict>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.6.0</string>
+    <key>ParentRecipe</key>
+    <string>com.andrewzirkel.pkg.LightspeedRelaySmartAgent</string>
+    <key>Process</key>
+    <array>
+        <dict>
+            <key>Arguments</key>
+            <dict>
+                <key>pkg_path</key>
+                <string>%pkg_path%</string>
+                <key>repo_subdirectory</key>
+                <string>%MUNKI_REPO_SUBDIR%</string>
+                <key>munkiimport_pkgname</key>
+                <string>%MAKEPKGINFO_PKGNAME%</string>
+            </dict>
+            <key>Processor</key>
+            <string>MunkiImporter</string>
+        </dict>
+    </array>
+</dict>
+</plist>
