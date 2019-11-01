@@ -36,19 +36,46 @@
     <string>com.andrewzirkel.pkg.LightspeedRelaySmartAgent</string>
     <key>Process</key>
     <array>
+      <dict>
+        <key>Processor</key>
+        <string>MunkiPkginfoMerger</string>
+        <key>Arguments</key>
         <dict>
-            <key>Arguments</key>
-            <dict>
-                <key>pkg_path</key>
-                <string>%pkg_path%</string>
-                <key>repo_subdirectory</key>
-                <string>%MUNKI_REPO_SUBDIR%</string>
-                <key>munkiimport_pkgname</key>
-                <string>%MAKEPKGINFO_PKGNAME%</string>
-            </dict>
-            <key>Processor</key>
-            <string>MunkiImporter</string>
+          <key>additional_pkginfo</key>
+          <dict>
+            <key>installcheck_script</key>
+            <string>#!/usr/bin/python
+from distutils.version import LooseVersion
+import subprocess
+myversion='%version%'
+mobilefilter='/usr/local/bin/mobilefilter'
+
+try:
+  p=subprocess.Popen([mobilefilter,'-v'], stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+except (OSError):
+  exit(0)
+stdout, stderr = p.communicate()
+installedVersion = stdout.split()[0]
+if LooseVersion(installedVersion) &lt; LooseVersion(myversion):
+  exit(0)
+exit(1)
+  </string>
+          </dict>
         </dict>
+      </dict>
+      <dict>
+          <key>Arguments</key>
+          <dict>
+              <key>pkg_path</key>
+              <string>%pkg_path%</string>
+              <key>repo_subdirectory</key>
+              <string>%MUNKI_REPO_SUBDIR%</string>
+              <key>munkiimport_pkgname</key>
+              <string>%MAKEPKGINFO_PKGNAME%</string>
+          </dict>
+          <key>Processor</key>
+          <string>MunkiImporter</string>
+      </dict>
     </array>
 </dict>
 </plist>

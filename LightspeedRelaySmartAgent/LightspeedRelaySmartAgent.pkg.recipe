@@ -21,13 +21,15 @@
           <key>Comment</key>
           <string>Unpack LightspeedRelaySmartAgent so we can get the version from the pkg</string>
           <key>Processor</key>
-          <string>FlatPkgUnpacker</string>
+          <string>LightspeedRelaySmartAgentPkgUnpacker</string>
           <key>Arguments</key>
           <dict>
               <key>flat_pkg_path</key>
               <string>%pathname%/SmartAgent.pkg</string>
               <key>destination_path</key>
               <string>%RECIPE_CACHE_DIR%/extract_root</string>
+              <key>exclude_path</key>
+              <string>Resources/background</string>
           </dict>
       </dict>
       <dict>
