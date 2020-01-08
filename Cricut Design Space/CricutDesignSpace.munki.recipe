@@ -28,6 +28,8 @@
             <string>%NAME%</string>
             <key>developer</key>
             <string>Cricut</string>
+            <key>category</key>
+            <string>Extras</string>
             <key>unattended_install</key>
             <true/>
         </dict>
