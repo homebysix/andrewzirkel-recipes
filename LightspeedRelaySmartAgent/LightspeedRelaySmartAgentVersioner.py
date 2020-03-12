@@ -40,7 +40,7 @@ class LightspeedRelaySmartAgentVersioner(Processor):
     def main(self):
         mobilefilter_path = self.env["mobilefilter_path"]
 
-        version = subprocess.check_output([mobilefilter_path,'-v']).rstrip()
+        version = subprocess.check_output([mobilefilter_path,'-v']).decode().rstrip()
         self.env["version"] = version
         self.output("Found version %s" %(self.env["version"]))
 
