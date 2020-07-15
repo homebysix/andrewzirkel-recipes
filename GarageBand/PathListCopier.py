@@ -7,7 +7,7 @@ import os
 import errno
 import shutil
 
-import FoundationPlist
+import plistlib
 
 from autopkglib import Processor, ProcessorError
 
@@ -52,7 +52,7 @@ class PathListCopier(Processor):
             "description": "Array of paths that will be copied to pathname."
         }
     }
-    
+
     output_variables = {
         "version": {
             "description": "The version determined by the process."
@@ -63,50 +63,48 @@ class PathListCopier(Processor):
                  as URLDownloader."""
         },
         "pathname": {
-        	"description": """pathname the files were copied to"""
+            "description": """pathname the files were copied to"""
         }
     }
-    
+
     __doc__ = description
 
     def get_version(self, filepath):
         if os.path.exists(filepath):
-            #try to determine the version
-        
+            # try to determine the version
+
             version_basename = os.path.basename(filepath)
-                    
+
             # is it an app bundle?
             if version_basename.endswith(".app"):
                 filepath = os.path.join(filepath, "Contents", "Info.plist")
         else:
             self.output("Cannot determine version. %s does not exist." % (filepath))
             return None
-                
+
         try:
-            plist = FoundationPlist.readPlist(filepath)
+            plist = plistlib.readPlist(filepath)
             version_key = self.env.get("plist_version_key", "CFBundleShortVersionString")
             version = plist.get(version_key, None)
             self.output("Found version %s in file %s" % (version, filepath))
-        
-        except FoundationPlist.FoundationPlistException, err:
-            raise ProcessorError(err) 
-    
-        return version  
 
+        except plistlib.InvalidFileException as err:
+            raise ProcessorError(err)
 
-    
+        return version
+
     def main(self):
-        
-        pathname =os.path.expanduser(self.env["pathname"])
+
+        pathname = os.path.expanduser(self.env["pathname"])
         makedir_p(pathname)
-        
+
         check_version_path = self.env.get("check_version_path", self.env["sourcelist"][0])
-        
+
         source_version = self.get_version(check_version_path)
-        
+
         target_version_path = os.path.join(pathname, os.path.relpath(check_version_path, "/"))
         target_version = self.get_version(target_version_path)
-        
+
         self.env["version"] = source_version
 
         # if version is equal, don't copy, write message, stop
@@ -116,23 +114,23 @@ class PathListCopier(Processor):
         else:
             self.env["download_changed"] = True
             self.env["pathname"] = pathname
-            
+
             # clean out pathname folder
             shutil.rmtree(pathname)
-            
+
             # copy all files from path list
             for source_item in self.env["sourcelist"]:
-                #check if source exists
-                if not os.path.exists(source_item): 
-                  self.output("%s not found" % (source_item))
-                  continue
-								
-                #copy all the things
+                # check if source exists
+                if not os.path.exists(source_item):
+                    self.output("%s not found" % (source_item))
+                    continue
+
+                # copy all the things
                 dest_item = os.path.join(pathname, os.path.relpath(source_item, "/"))
                 self.output("Copying: %s" % (source_item))
-                
+
                 makedir_p(os.path.dirname(dest_item))
-								
+
                 try:
                     if os.path.isdir(source_item):
                         shutil.copytree(source_item, dest_item, symlinks=True)
@@ -141,13 +139,10 @@ class PathListCopier(Processor):
                     else:
                         shutil.copy(source_item, dest_item)
                     self.output("Copied %s to %s" % (source_item, dest_item))
-                except BaseException, err:
+                except BaseException as err:
                     raise ProcessorError("Can't copy %s to %s: %s" % (source_item, dest_item, err))
-
 
 
 if __name__ == '__main__':
     processor = PathListCopier()
     processor.execute_shell()
-    
-

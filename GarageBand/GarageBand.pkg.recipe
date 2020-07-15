@@ -63,7 +63,7 @@
 				<string>dummy</string>
 			</dict>
 			<key>Processor</key>
-			<string>com.scriptingosx.processors/MASReceipt</string>
+			<string>MASReceipt</string>
 		</dict>
 		<dict>
 			<key>Arguments</key>
