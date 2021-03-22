@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads AP Classroom LockDown Browser and creates package.</string>
+    <key>Identifier</key>
+    <string>com.andrewzirkel.pkg.APClassroomLockDownBrowser</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>APClassroomLockDownBrowser</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.andrewzirkel.download.APClassroomLockDownBrowser</string>
+    <key>Process</key>
+    <array>
+      <dict>
+        <key>Arguments</key>
+        <dict>
+          <key>destination_path</key>
+          <string>%RECIPE_CACHE_DIR%/unpack</string>
+          <key>flat_pkg_path</key>
+          <string>%RECIPE_CACHE_DIR%/%NAME%/Install Respondus LockDown Browser OEM (x64c).pkg</string>
+          <key>purge_destination</key>
+          <true/>
+        </dict>
+        <key>Processor</key>
+        <string>FlatPkgUnpacker</string>
+      </dict>
+      <dict>
+        <key>Arguments</key>
+        <dict>
+          <key>destination_path</key>
+          <string>%RECIPE_CACHE_DIR%/payload</string>
+          <key>pkg_payload_path</key>
+          <string>%RECIPE_CACHE_DIR%/unpack/lockdownbrowser.pkg/Payload</string>
+          <key>purge_destination</key>
+          <true/>
+        </dict>
+        <key>Processor</key>
+        <string>PkgPayloadUnpacker</string>
+      </dict>
+      <dict>
+        <key>Arguments</key>
+        <dict>
+          <key>input_plist_path</key>
+          <string>%RECIPE_CACHE_DIR%/payload/LockDown Browser OEM.app/Contents/Info.plist</string>
+          <key>plist_version_key</key>
+          <string>CFBundleShortVersionString</string>
+        </dict>
+        <key>Processor</key>
+        <string>Versioner</string>
+      </dict>
+
+        <dict>
+    			<key>Processor</key>
+    			<string>PkgRootCreator</string>
+    			<key>Arguments</key>
+    			<dict>
+    				<key>pkgroot</key>
+    				<string>%RECIPE_CACHE_DIR%/pkgroot</string>
+    				<key>pkgdirs</key>
+    				<dict/>
+    			</dict>
+    		</dict>
+        <dict>
+            <key>Comment</key>
+            <string>Copy the app to the scripts folder.</string>
+            <key>Arguments</key>
+            <dict>
+                <key>source_path</key>
+                <string>%RECIPE_CACHE_DIR%/payload/LockDown Browser OEM.app</string>
+                <key>destination_path</key>
+                <string>%RECIPE_CACHE_DIR%/pkgroot/Applications/AP Classroom LockDown Browser.app</string>
+                <key>overwrite</key>
+        				<true/>
+            </dict>
+            <key>Processor</key>
+            <string>Copier</string>
+        </dict>
+        <dict>
+            <key>Comment</key>
+            <string>Create package.</string>
+            <key>Processor</key>
+            <string>PkgCreator</string>
+            <key>Arguments</key>
+            <dict>
+                <key>pkgname</key>
+                <string>%NAME%-%version%</string>
+                <key>pkg_request</key>
+                <dict>
+                  <key>pkgroot</key>
+        					<string>%RECIPE_CACHE_DIR%/pkgroot</string>
+                  <key>pkgdir</key>
+                  <string>%RECIPE_CACHE_DIR%</string>
+                  <key>id</key>
+                  <string>org.collegeboard.LockDownBrowserOEM.pkg</string>
+                  <key>options</key>
+                  <string>purge_ds_store</string>
+                  <key>version</key>
+                  <string>%version%</string>
+                </dict>
+              </dict>
+            </dict>
+    </array>
+</dict>
+</plist>
