@@ -3,22 +3,23 @@
 <plist version="1.0">
 <dict>
 	<key>Comment</key>
-	<string>Initially Created with Recipe Robot v2.0.0 (https://github.com/homebysix/recipe-robot)</string>
+	<string>Created with Recipe Robot v2.0.0 (https://github.com/homebysix/recipe-robot)</string>
 	<key>Description</key>
 	<string>Downloads the latest version of AP Classroom LockDown Browser and imports it into Munki.</string>
 	<key>Identifier</key>
 	<string>com.andrewzirkel.munki.APClassroomLockDownBrowser</string>
 	<key>Input</key>
 	<dict>
-		<key>NAME</key>
-		<string>AP Classroom LockDown Browser</string>
 		<key>MUNKI_REPO_SUBDIR</key>
 		<string>apps/%NAME%</string>
+		<key>NAME</key>
+		<string>AP Classroom LockDown Browser</string>
 		<key>pkginfo</key>
 		<dict>
 			<key>blocking_applications</key>
 			<array>
-				<string>AP Classroom LockDown Browser.app</string>
+				<string>LockDown Browser OEM.app</string>
+				<string>LDBCEFHelper.app</string>
 			</array>
 			<key>catalogs</key>
 			<array>
@@ -39,14 +40,25 @@
 	<key>MinimumVersion</key>
 	<string>1.0.0</string>
 	<key>ParentRecipe</key>
-	<string>com.andrewzirkel.pkg.APClassroomLockDownBrowser</string>
+	<string>com.andrewzirkel.download.APClassroomLockDownBrowser</string>
 	<key>Process</key>
 	<array>
 		<dict>
 			<key>Arguments</key>
 			<dict>
+				<key>dmg_path</key>
+				<string>%RECIPE_CACHE_DIR%/%NAME%.dmg</string>
+				<key>dmg_root</key>
+				<string>%RECIPE_CACHE_DIR%/%NAME%</string>
+			</dict>
+			<key>Processor</key>
+			<string>DmgCreator</string>
+		</dict>
+		<dict>
+			<key>Arguments</key>
+			<dict>
 				<key>pkg_path</key>
-				<string>%pkg_path%</string>
+				<string>%dmg_path%</string>
 				<key>repo_subdirectory</key>
 				<string>%MUNKI_REPO_SUBDIR%</string>
 			</dict>
