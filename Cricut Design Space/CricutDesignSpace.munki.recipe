@@ -37,53 +37,21 @@
     <key>MinimumVersion</key>
     <string>0.6.0</string>
     <key>ParentRecipe</key>
-    <string>com.github.nstrauss.pkg.CricutDesignSpace</string>
+    <string>com.github.nstrauss.download.CricutDesignSpace</string>
     <key>Process</key>
     <array>
       <dict>
-        <key>Processor</key>
-        <string>MunkiPkginfoMerger</string>
-        <key>Arguments</key>
-        <dict>
-          <key>additional_pkginfo</key>
-          <dict>
-            <key>preinstall_script</key>
-            <string>#!/bin/sh
-
-#See if there is a user logged in
-loggedin=$(defaults read /Library/Preferences/com.apple.loginwindow lastUser)
-
-if [ "$loggedin" == "loggedIn" ]; then
-  exit 0
-fi
-
-exit 1
-</string>
-            <key>postinstall_script</key>
-            <string>#!/bin/bash
-#script should only run if a user is logged in, as checked in pre-install script.
-
-# Run installer
-/private/tmp/CricutDesignSpace.app/Contents/MacOS/osx-x86_64 --mode unattended
-
-# Clean up
-rm -rf /private/tmp/CricutDesignSpace.app
-</string>
-          </dict>
-        </dict>
-      </dict>
-      <dict>
+          <key>Processor</key>
+          <string>MunkiImporter</string>
           <key>Arguments</key>
           <dict>
               <key>pkg_path</key>
-              <string>%pkg_path%</string>
+              <string>%pathname%</string>
               <key>repo_subdirectory</key>
               <string>%MUNKI_REPO_SUBDIR%</string>
               <key>munkiimport_pkgname</key>
               <string>%MAKEPKGINFO_PKGNAME%</string>
           </dict>
-          <key>Processor</key>
-          <string>MunkiImporter</string>
       </dict>
     </array>
 </dict>
