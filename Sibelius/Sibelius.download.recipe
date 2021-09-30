@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Description</key>
+	<string>Downloads the latest version of Sibelius.</string>
+	<key>Identifier</key>
+	<string>com.andrewzirkel.download.sibelius</string>
+	<key>Input</key>
+	<dict>
+		<key>NAME</key>
+		<string>Sibelius</string>
+		<key>MYAVID_USERNAME</key>
+		<string></string>
+		<key>MYAVID_PASSWORD</key>
+		<string></string>
+	</dict>
+	<key>MinimumVersion</key>
+	<string>1.0.0</string>
+	<key>Process</key>
+	<array>
+		<dict>
+			<key>Processor</key>
+			<string>SibeliusURLProvider</string>
+			<key>Arguments</key>
+			<dict>
+				<key>username</key>
+				<string>%MYAVID_USERNAME%</string>
+				<key>password</key>
+				<string>%MYAVID_PASSWORD%</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>URLDownloader</string>
+			<key>Arguments</key>
+			<dict>
+				<key>filename</key>
+				<string>%NAME%.dmg</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>EndOfCheckPhase</string>
+		</dict>
+		<dict>
+			<key>Processor</key>
+			<string>CodeSignatureVerifier</string>
+			<key>Arguments</key>
+			<dict>
+				<key>input_path</key>
+				<string>%pathname%/Install Sibelius.pkg</string>
+				<key>expected_authority_names</key>
+				<array>
+						<string>Developer ID Installer: Avid Technology Inc (4UYUA773XD)</string>
+						<string>Developer ID Certification Authority</string>
+						<string>Apple Root CA</string>
+				</array>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

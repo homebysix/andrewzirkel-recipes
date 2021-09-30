@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+    <key>Description</key>
+    <string>Downloads Sibelius dmg and gets version from app.</string>
+    <key>Identifier</key>
+    <string>com.andrewzirkel.pkg.sibelius</string>
+    <key>Input</key>
+    <dict>
+        <key>NAME</key>
+        <string>Sibelius</string>
+    </dict>
+    <key>MinimumVersion</key>
+    <string>0.2.0</string>
+    <key>ParentRecipe</key>
+    <string>com.andrewzirkel.download.sibelius</string>
+    <key>Process</key>
+    <array>
+      <dict>
+        <key>Comment</key>
+        <string>Unpack so we can get the version from the app in the pkg</string>
+        <key>Processor</key>
+        <string>FlatPkgUnpacker</string>
+        <key>Arguments</key>
+        <dict>
+          <key>flat_pkg_path</key>
+          <string>%pathname%/*.pkg</string>
+          <key>destination_path</key>
+          <string>%RECIPE_CACHE_DIR%/extract_root</string>
+        </dict>
+      </dict>
+      <dict>
+          <key>Comment</key>
+          <string>Unpack Sibelius Subpackage so we can get the version from the app</string>
+          <key>Processor</key>
+          <string>PkgPayloadUnpacker</string>
+          <key>Arguments</key>
+          <dict>
+              <key>pkg_payload_path</key>
+              <string>%RECIPE_CACHE_DIR%/extract_root/Sibelius.pkg/Payload</string>
+              <key>destination_path</key>
+              <string>%RECIPE_CACHE_DIR%/extract_SibeliusPayload</string>
+          </dict>
+        </dict>
+        <dict>
+            <key>Comment</key>
+            <string>Get version from the app</string>
+            <key>Processor</key>
+            <string>Versioner</string>
+            <key>Arguments</key>
+            <dict>
+                <key>input_plist_path</key>
+                <string>%RECIPE_CACHE_DIR%/extract_SibeliusPayload/Applications/Sibelius.app/Contents/Info.plist</string>
+            </dict>
+        </dict>
+    </array>
+</dict>
+</plist>
