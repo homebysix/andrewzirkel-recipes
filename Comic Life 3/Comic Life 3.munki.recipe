@@ -31,9 +31,9 @@
 		</dict>
 	</dict>
 	<key>MinimumVersion</key>
-	<string>0.6.1</string>
+	<string>1.1</string>
 	<key>ParentRecipe</key>
-	<string>com.github.sheagcraig.pkg.ComicLife3</string>
+	<string>com.andrewzirkel.pkg.ComicLife3</string>
 	<key>Process</key>
 	<array>
 		<dict>
