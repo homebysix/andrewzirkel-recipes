@@ -6,15 +6,17 @@ import http.cookiejar
 import ssl
 import re
 
-from html.parser import HTMLParser
+from html import unescape
 from autopkglib import Processor, ProcessorError
 
 __all__ = ["SibeliusURLProvider"]
 
+BASE_URL=("https://my.avid.com")
 LOGIN_URL=("https://my.avid.com/account/orientation/Login")
-DOWNLOAD_URL = ("https://my.avid.com/esd/Product/Download/2497")
+DOWNLOAD_URL = ("https://my.avid.com/products/")
 REGEX = "https://cdn.avid.com/Sibelius/Sibelius.*ac\.dmg"
 VERSION_REGEX = "\d{4}\.\d"
+USER_AGENT="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/95.0.4638.69 Safari/537.36"
 
 class SibeliusURLProvider(Processor):
     description = "Provides URL to the latest Sibelius release."
@@ -67,12 +69,11 @@ class SibeliusURLProvider(Processor):
               }
         # big thing! you need a referer for most pages! and correct headers are the key
         headers={"Content-Type":"application/x-www-form-urlencoded",
-        "User-Agent":"Mozilla/5.0 Chrome/81.0.4044.92",    # Chrome 80+ as per web search
+        "User-Agent":USER_AGENT,    # Chrome 80+ as per web search
         "Host":"my.avid.com",
         "Origin":"https://my.avid.com",
-        "Referer":"https://my.avid.com/account/orientation?returnUrl=https%3a%2f%2fmy.avid.com%2fesd%2fProduct%2fDownload%2f2497",
+        "Referer":"https://my.avid.com/account/orientation?returnUrl=https%3a%2f%2fmy.avid.com%2fproducts%2f",
         "Accept":"application/json",
-        "Accept-Encoding":"gzip, deflate, br"
         }
 
         # now we prepare all we need for login
@@ -87,12 +88,39 @@ class SibeliusURLProvider(Processor):
         response = urllib.request.urlopen(request)
         contents = response.read()
 
-        request = urllib.request.Request(DOWNLOAD_URL)
+        headers={
+            "User-Agent":USER_AGENT,    # Chrome 80+ as per web search
+            "Host":"my.avid.com",
+            "X-Requested-With":"XMLHttpRequest",
+            "Referer":DOWNLOAD_URL,
+            "Accept":"*/*",
+            "sec-ch-ua-platform":"macOS",
+            "Sec-Fetch-Site":"same-origin",
+            "Sec-Fetch-Mode":"cors",
+            "Sec-Fetch-Mode":"empty",
+            "sec-ch-ua":"\"Google Chrome\";v=\"95\", \"Chromium\";v=\"95\", \";Not A Brand\";v=\"99\""
+            }
+        request = urllib.request.Request(DOWNLOAD_URL,None,headers)
         response = urllib.request.urlopen(request)
         contents = response.read()
 
         # parse the page
         html = contents.decode("utf-8")
+        #now we have "https://my.avid.com/products/"
+        #get prod id
+        PN_REGEX = "sibelius-buy-now\" name=\"(.+?)\""
+        PN = re.search(PN_REGEX, html).group(1)
+        #get api download url
+        API_DOWNLOAD_REGEX = "/products/Api/ProductDownloads/" + PN + "\?.*showAddValue=False"
+        API_DOWNLOAD_URL = re.search(API_DOWNLOAD_REGEX, html).group(0)
+        API_DOWNLOAD_URL = BASE_URL + unescape(API_DOWNLOAD_URL)
+        #get download url
+        request = urllib.request.Request(API_DOWNLOAD_URL,None,headers)
+        response = urllib.request.urlopen(request)
+        contents = response.read()
+        # parse the page
+        html = contents.decode("utf-8")
+
         match = re.search(REGEX, html)
         pkg_url = match[0]
 
