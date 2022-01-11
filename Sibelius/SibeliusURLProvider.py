@@ -108,8 +108,11 @@ class SibeliusURLProvider(Processor):
         html = contents.decode("utf-8")
         #now we have "https://my.avid.com/products/"
         #get prod id
-        PN_REGEX = "sibelius-buy-now\" name=\"(.+?)\""
-        PN = re.search(PN_REGEX, html).group(1)
+        PN_REGEX = "sibelius.*?\" name=\"(.+?)\""
+        match = re.search(PN_REGEX, html)
+        if not match:
+            raise ProcessorError("Sibelius Product Number not found, does it appear under My Products in the supplied Avid account?")
+        PN = match.group(1)
         #get api download url
         API_DOWNLOAD_REGEX = "/products/Api/ProductDownloads/" + PN + "\?.*showAddValue=False"
         API_DOWNLOAD_URL = re.search(API_DOWNLOAD_REGEX, html).group(0)
