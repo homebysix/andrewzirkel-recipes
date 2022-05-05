@@ -14,18 +14,24 @@
 		<string>apps/%NAME%</string>
 		<key>NAME</key>
 		<string>SMARTScreenShare</string>
+		<key>MUNKI_CATEGORY</key>
+		<string>Utilities</string>
+		<key>MUNKI_DEVELOPER</key>
+		<string>SMART Technologies ULC<</string>
 		<key>pkginfo</key>
 		<dict>
 			<key>catalogs</key>
 			<array>
 				<string>testing</string>
 			</array>
+			<key>category</key>
+			<string>%MUNKI_CATEGORY%</string>
 			<key>description</key>
 			<string>SMART Screen Share app for macOS computers
 The is an alternate method of sharing your device’s screen and might be useful where the network your display is connected to doesn’t support AirPlay, Google Cast, or Miracast.
 https://support.smarttech.com/docs/software/iq/en/downloads/screen-share-apps/macos.cshtml</string>
 			<key>developer</key>
-			<string>SMART Technologies ULC</string>
+			<string>%MUNKI_DEVELOPER%</string>
 			<key>display_name</key>
 			<string>SMART Screen Share</string>
 			<key>name</key>
