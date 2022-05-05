@@ -30,6 +30,15 @@ https://support.smarttech.com/docs/software/iq/en/downloads/screen-share-apps/ma
 			<string>SMART Screen Share</string>
 			<key>name</key>
 			<string>%NAME%</string>
+			<key>postinstall_script</key>
+			<string>#!/bin/sh
+
+		cp -r /Applications/SMART\ Screen\ Share.app/Contents/Resources/User-Space/SMARTLoopbackAudioDriver.driver /Library/Audio/Plug-Ins/HAL/
+
+		launchctl stop com.apple.audio.coreaudiod
+		launchctl start com.apple.audio.coreaudiod
+
+		exit 0</string>
 			<key>unattended_install</key>
 			<true/>
 		</dict>
