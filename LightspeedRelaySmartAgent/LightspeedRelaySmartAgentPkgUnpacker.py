@@ -1,4 +1,4 @@
-#!/usr/bin/env python
+#!/usr/local/autopkg/python
 #
 # Copyright 2013 Timothy Sutton, Modified by Andrew Zirkel
 #
