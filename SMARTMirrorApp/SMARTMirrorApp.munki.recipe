@@ -19,7 +19,7 @@
 		<key>MUNKI_CATEGORY</key>
 		<string>Utilities</string>
 		<key>MUNKI_DEVELOPER</key>
-		<string>SMART Technologies ULC<</string>
+		<string>SMART Technologies ULC</string>
 		<key>pkginfo</key>
 		<dict>
 			<key>blocking_applications</key>
