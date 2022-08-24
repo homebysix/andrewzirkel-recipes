@@ -38,7 +38,7 @@
 			<key>developer</key>
 			<string>%MUNKI_DEVELOPER%</string>
 			<key>display_name</key>
-			<string>SMARTMirrorApp</string>
+			<string>SMART Mirror App</string>
 			<key>name</key>
 			<string>%NAME%</string>
 			<key>unattended_install</key>
