@@ -37,14 +37,14 @@ class PathListCopier(Processor):
         "check_version_path": {
             "required": False,
             "description": """This processor will attempt to determine the vesion at the
-                    local path and pathname. If the version at pathname is the same, then 
-                    it will not copy. Otherwise the data at pathname will be overwritten. 
-                    If this path is not given, the first item from sourcelist will be 
+                    local path and pathname. If the version at pathname is the same, then
+                    it will not copy. Otherwise the data at pathname will be overwritten.
+                    If this path is not given, the first item from sourcelist will be
                     used."""
         },
         "plist_version_key": {
             "required": False,
-            "description": """Key to use on the Info.plist to read the version. Default 
+            "description": """Key to use on the Info.plist to read the version. Default
             is CFBundleShortVersionString."""
         },
         "sourcelist": {
@@ -58,7 +58,7 @@ class PathListCopier(Processor):
             "description": "The version determined by the process."
         },
         "download_changed": {
-            "description": """Boolean indicating if files where actually copied. Using 
+            "description": """Boolean indicating if files where actually copied. Using
                 this terminology so that Processors down the path treat it the same way
                  as URLDownloader."""
         },
@@ -83,7 +83,8 @@ class PathListCopier(Processor):
             return None
 
         try:
-            plist = plistlib.readPlist(filepath)
+            with open(filepath, 'rb') as f:
+                plist = plistlib.load(f)
             version_key = self.env.get("plist_version_key", "CFBundleShortVersionString")
             version = plist.get(version_key, None)
             self.output("Found version %s in file %s" % (version, filepath))
