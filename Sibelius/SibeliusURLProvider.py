@@ -112,7 +112,7 @@ class SibeliusURLProvider(Processor):
         match = re.search(PN_REGEX, html)
         if not match:
             #try paid version tag
-            PN_REGEX = "product-active\" name=\"(.+?)\""
+            PN_REGEX = "product-active\s*\" name=\"(.+?)\""
             match = re.search(PN_REGEX, html)
             if not match:
                 raise ProcessorError("Sibelius Product Number not found, does it appear under My Products in the supplied Avid account?")
@@ -129,6 +129,9 @@ class SibeliusURLProvider(Processor):
         html = contents.decode("utf-8")
 
         match = re.search(REGEX, html)
+        if not match:
+            #Seems like we now need a paid account
+            raise ProcessorError("URL not found, Seems like we now need a paid Avid account")
         pkg_url = match[0]
 
         return pkg_url
