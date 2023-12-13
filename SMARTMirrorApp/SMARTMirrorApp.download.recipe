@@ -20,13 +20,10 @@
 	<key>Process</key>
 	<array>
 		<dict>
-			<key>Arguments</key>
-			<dict>
-				<key>filename</key>
-				<string>%NAME%.pkg</string>
-				<key>url</key>
-				<string>https://downloads.smarttech.com/software/smartmirror/mac/SMART_Mirror_App.pkg</string>
-			</dict>
+			<key>Processor</key>
+			<string>SMARTMirrorAppURLProvider</string>
+		</dict>
+		<dict>
 			<key>Processor</key>
 			<string>URLDownloader</string>
 		</dict>
@@ -39,7 +36,7 @@
 			<dict>
 				<key>expected_authority_names</key>
 				<array>
-					<string>Developer ID Installer: SMART Technologies ULC (53V9BC2FMQ)</string>
+					<string>Developer ID Installer: DisplayNote Technologies Ltd (Q3ML87W6WF)</string>
 					<string>Developer ID Certification Authority</string>
 					<string>Apple Root CA</string>
 				</array>
